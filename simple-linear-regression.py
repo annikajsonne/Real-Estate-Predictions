@@ -7,7 +7,6 @@ from IPython.display import display, HTML
 display(HTML("<style>.container { width:100% !important; }</style>"))
 
 import numpy as np
-np.set_printoptions(precision=2,suppress=True)
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
@@ -21,30 +20,22 @@ pd.set_option('display.max_columns', None)
 import numpy as np
 print(f'Using NumPy {np.__version__}')
 
-sales = pd.read_csv('data/home_data.gz')
+sales = pd.read_csv('./data/home_data')
 N = len(sales)
 print(f'There are N={N} records')
 
 def show_features(dataframe, features):
     """Plots columns given by features in the dataframe as histograms."""
-    
     column_num = len(features)
-
     fig, ax = plt.subplots(column_num, 1, figsize=(14.0, 8.0*column_num), frameon=False)
-    
     if column_num == 1: ax = [ax]
-
     for i in range(column_num):
-        # Go through each column of the dataframe and plot the data as a histogram
-
+        # go through each column of the dataframe and plot the data as a histogram
         column_label = features[i]
-
         # bin number is minimum of 60 and the number of unique values in the column
         bin_num = min(dataframe[column_label].nunique(), 60)
-
         dataframe[column_label].hist(ax=ax[i], bins=bin_num)
-
-        # Include a table at the right showing statistics for the data
+        # include a table at the right showing statistics for the data
         pd.plotting.table(ax[i], dataframe[column_label].describe(), loc='right', bbox = [1.1, 0.5, 0.25, 0.5])
 
         ax[i].set_xlabel(column_label)
@@ -60,14 +51,16 @@ feature_list = ['price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'fl
        'condition', 'grade', 'sqft_above',
        'sqft_basement', 'yr_built', 'zipcode', 'lat', 'long',
        'sqft_living15', 'sqft_lot15']
-show_features(sales, feature_list)
+
+# show the features in plot
+# show_features(sales, feature_list)
 
 #plot price as a function of sqft_living
 fig, ax = plt.subplots(1, 1, figsize=(14.0, 8.0), frameon=False)
 ax.plot(sales[1:5000]['sqft_living'], sales[1:5000]['price'], '.')
 ax.set_xlabel('sqft_living')
 ax.set_ylabel('price')
-plt.show()
+# plt.show()
 
 # first, extract the price column of the sales DataFrame into a Series
 prices = sales['price']
@@ -118,6 +111,18 @@ def simple_linear_regression2(in_feature, target):
 w2 = simple_linear_regression2(train_set['sqft_living'], train_set['price'])
 print(f'Sklearn model: {w2[0]:.2f} + {w2[1]:.2f}x')
 
+#computes a tuple (X, y) consisting of: An N*2 NumPy matrix X whose columns include a 
+#constant column of 1s followed by column for the desired feature, for all N rows of `series`
+# and NumPy array $y$ containing the values of `target`.
+def series2matrix(series, target):
+    X = np.column_stack((np.ones(len(series)), series))
+    y = target.values
+    
+    return X, y
+
+#convert series to matrix
+X, y=series2matrix(train_set['sqft_living'],train_set['price'])
+
 # dot product prediction function
 def predict(X, w):
     '''X: a matrix whose rows store the tall vectors of the regressor
@@ -136,19 +141,7 @@ def MSE(y,yhat):
 #cost of closed form solution
 yhat = predict(X, w1)
 optimal_cost = MSE(y,yhat)
-print(f'{MSE(y,yhat):.5e}')
-
-#computes a tuple (X, y) consisting of: An N*2 NumPy matrix X whose columns include a 
-#constant column of 1s followed by column for the desired feature, for all N rows of `series`
-# and NumPy array $y$ containing the values of `target`.
-def series2matrix(series, target):
-    X = np.column_stack((np.ones(len(series)), series))
-    y = target.values
-    
-    return X, y
-
-#convert series to matrix
-X,y=series2matrix(train_set['sqft_living'],train_set['price'])
+print(f'Cost of Closed Form Solution: {MSE(y,yhat):.5e}')
 
 # gradient descent function
 def simple_linear_regression3(X, y, initial_weights, alpha, tolerance, max_iterations):
@@ -207,6 +200,7 @@ intercept_l1 = most_expensive_house['price'] - price_slope * most_expensive_hous
 intercept_l2 = largest_house['price'] - sqft_slope * largest_house['sqft_living']
 intercept_l = (intercept_l1 + intercept_l2) / 2
 
+print('Gradient Descent Model:')
 print(f'Intercept (initial guess): {intercept_l:.2f}')
 print(f'Slope (initial guess): {slope_l:.2f}')
 
@@ -252,7 +246,7 @@ print(f"MSE: {optimal_cost}")
 percentage_diff = ((final_cost - optimal_cost) / optimal_cost) * 100
 print(f"Percentage Difference in the Closed Form Model's Cost and the Gradient Descent Model's Cost: {percentage_diff}")
 
-plt.figure(figsize=(10, 6))
+# plt.figure(figsize=(10, 6))
 
 plt.scatter(test_set['sqft_living'], test_set['price'], color='black', label='Actual Price')
 plt.scatter(test_set['sqft_living'], predictions_optimal, color='red', label='Optimal Model Predictions')
@@ -262,7 +256,7 @@ predictions_gd = predict(X_test, weights)
 test_set_gd_cost = np.mean((predictions_gd - test_set['price']) ** 2)
 percentage_diff_test = ((test_set_gd_cost - test_set_optimal_cost) / test_set_optimal_cost) * 100
 print('Percentage difference between the optimal model and the gradient descent model is: ', percentage_diff_test)
-plt.scatter(test_set['sqft_living'], predictions_gd, color='blue', label='Gradient Descent Predictions')
+plt.scatter(test_set['sqft_living'], predictions_gd, color='green', label='Gradient Descent Predictions')
 
 plt.xlabel('Square Feet Living')
 plt.ylabel('Price')

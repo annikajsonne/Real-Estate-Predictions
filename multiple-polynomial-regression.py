@@ -18,7 +18,7 @@ print('Using Python',python_version(), 'and NumPy version', np.__version__)
 from IPython.display import display, HTML
 display(HTML("<style>.container { width:100% !important; }</style>"))
 
-sales = pd.read_csv('data/home_data.gz')
+sales = pd.read_csv('./data/home_data')
 print('Number of house sales:', len(sales), '\nAvailable features:\n',sales.columns)
 
 train_data = sales.sample(frac=0.8, random_state=0)
