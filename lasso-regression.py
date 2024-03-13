@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 np.set_printoptions(precision=2,suppress=True)
 
 # load in house data
-sales = pd.read_csv('data/home_data.gz')
+sales = pd.read_csv('./data/home_data')
 print(f'Input features:\n {sales.columns}')
 
 # create new features
@@ -91,6 +91,7 @@ for l1_penalty in l1_penalties:
     non_zero_counts.append(non_zero_count)
     print(f"L1 Penalty: {l1_penalty}")
     print(f"Non-zero weights: {non_zero_count}")
+    print("")
 
 # find the minimum and maximum L1 penalties
 l1_penalty_min = None
@@ -132,10 +133,11 @@ for l1_penalty in l1_penalty_values:
         lowest_mse = mse
         best_non_zero_count = non_zero_count
 
+print('')
 print(f"Best L1 penalty: {best_l1_penalty}")
 print(f"Lowest MSE on the validation set: {lowest_mse}")
 print(f"Number of non-zero weights: {best_non_zero_count}")
-
+print('')
 print(f"The l1_penalty that has the lowest RSS on validation and sparsity equal to target_nonzeros is {best_l1_penalty}")
 
 # find the optimal model and the nonzero coefficients
@@ -148,7 +150,7 @@ non_zero_features = [feature for feature, coefficient in features_and_coefficien
 
 print("Features with non-zero coefficients:")
 print(non_zero_features)
-
+print('')
 
 def pandas2numpy(dataframe, features, target):
     dataframe['constant'] = 1
@@ -163,7 +165,7 @@ def predict_target(design_matrix, model):
     return predictions
 
 X = np.array([[3.,5.,8.],[4.,12.,15.]])
-print(X)
+print(f"X: {X}")
 
 two_norms = np.linalg.norm(X, axis=0)
 
@@ -172,6 +174,7 @@ X_normalized = X / two_norms
 print("2-norms of each column:", two_norms)
 print("Normalized X:")
 print(X_normalized)
+print('')
 
 def normalize_features(feature_matrix):
     """
@@ -192,11 +195,11 @@ def normalize_features(feature_matrix):
     return normalized_features, norms
 
 features, norms = normalize_features(np.array([[3.,6.,9.],[4.,8.,12.]]))
-print(features)
+# print(features)
 # should print
 # [[ 0.6  0.6  0.6]
 #  [ 0.8  0.8  0.8]]
-print(norms)
+# print(norms)
 # should print
 # [5.  10.  15.]
 
@@ -342,7 +345,7 @@ all_feature_names = ['constant'] + all_features
 
 non_zero_weight_features = [feature for i, feature in enumerate(all_feature_names) if weights1e7[i] != 0]
 
-print("Features with non-zero weights:", non_zero_weight_features)
+print("Features with non-zero weights for L1 Penalty of 1e7:", non_zero_weight_features)
 
 l1_penalty = 1e8
 initial_weights = np.zeros(1+len(all_features))
@@ -352,7 +355,7 @@ weights1e8 = lasso_cyclical_coordinate_descent(normalized_all_feature_matrix, ou
 
 non_zero_weight_features1e8 = [feature for i, feature in enumerate(all_feature_names) if weights1e8[i] != 0]
 
-print("Features with non-zero weights:", non_zero_weight_features1e8)
+print("Features with non-zero weights for L1 Penalty of 1e8:", non_zero_weight_features1e8)
 
 l1_penalty = 1e4
 initial_weights = np.zeros(1+len(all_features))
@@ -364,7 +367,7 @@ weights1e4 = lasso_cyclical_coordinate_descent(normalized_all_feature_matrix, ou
 
 non_zero_weight_features1e4 = [feature for i, feature in enumerate(all_feature_names) if weights1e4[i] != 0]
 
-print("Features with non-zero weights:", non_zero_weight_features1e4)
+print("Features with non-zero weights for L1 Penalty of 1e4:", non_zero_weight_features1e4)
 
 normalized_weights1e4 = weights1e4 / all_norms
 
@@ -372,6 +375,7 @@ normalized_weights1e7 = weights1e7 / all_norms
 
 normalized_weights1e8 = weights1e8 / all_norms
 
+print("")
 print("Normalized weight for feature 3 with l1_penalty=1e7:", normalized_weights1e7[3])
 
 test_feature_matrix, test_output = pandas2numpy(test_data, all_features, 'price')
@@ -387,7 +391,7 @@ mse1e8 = mean_squared_error(test_output, predictions1e8)
 print("MSE with l1_penalty=1e4:", mse1e4)
 print("MSE with l1_penalty=1e7:", mse1e7)
 print("MSE with l1_penalty=1e8:", mse1e8)
-
+print("")
 best_model = min(mse1e4, mse1e7, mse1e8)
 if best_model == mse1e4:
     print("Best model: l1_penalty=1e4")
