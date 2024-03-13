@@ -308,5 +308,3 @@ print(f"The RMSE using the normalized Gradient Boosting model is: {rmse_test_pip
 # Calculate the improvement factor based on the initial RMSE test value
 improvement_factor_pipeline = rmse_test / rmse_test_pipeline
 print(f"The improvement factor using the normalized Gradient Boosting model is: {improvement_factor_pipeline}")
-
-
