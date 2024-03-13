@@ -60,7 +60,7 @@ fig, ax = plt.subplots(1, 1, figsize=(14.0, 8.0), frameon=False)
 ax.plot(sales[1:5000]['sqft_living'], sales[1:5000]['price'], '.')
 ax.set_xlabel('sqft_living')
 ax.set_ylabel('price')
-# plt.show()
+plt.show()
 
 # first, extract the price column of the sales DataFrame into a Series
 prices = sales['price']
@@ -217,11 +217,11 @@ print(f"Final Weight Vector: {weights}")
 print(f"Final Cost: {final_cost}")
 print(f"Alpha: {alpha}, Tolerance: {tolerance}, Iterations: {len(cost_history)}")
 
-# plt.plot(cost_history)
-# plt.xlabel('Iteration')
-# plt.ylabel('Cost')
-# plt.title('Cost Function Over Iterations')
-# plt.show()
+plt.plot(cost_history)
+plt.xlabel('Iteration')
+plt.ylabel('Cost')
+plt.title('Cost Function Over Iterations')
+plt.show()
 
 
 # evaluate model quality
@@ -246,7 +246,7 @@ print(f"MSE: {optimal_cost}")
 percentage_diff = ((final_cost - optimal_cost) / optimal_cost) * 100
 print(f"Percentage Difference in the Closed Form Model's Cost and the Gradient Descent Model's Cost: {percentage_diff}")
 
-# plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6))
 
 plt.scatter(test_set['sqft_living'], test_set['price'], color='black', label='Actual Price')
 plt.scatter(test_set['sqft_living'], predictions_optimal, color='red', label='Optimal Model Predictions')
