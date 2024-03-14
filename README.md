@@ -85,7 +85,7 @@ The purpose of this script is to showcase the process of using Lasso regression 
 
 ### Usage
 1. Data Preparation: Ensure you have the dataset ready in GZ format. The script expects a file named `home_data.gz` which is found within the `data` directory.
-2. Running the Script: Execute the provided Python script (`lasso_regression.py`) in your preferred environment.
+2. Running the Script: Execute the provided Python script (`lasso-regression.py`) in your preferred environment.
 3. Interpreting Results: Analyze the printed outputs and model performance metrics to understand the effectiveness of Lasso regression for predicting house prices.
 
 ### Dependencies
