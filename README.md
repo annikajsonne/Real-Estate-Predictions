@@ -1,5 +1,13 @@
 # Real Estate Predictions Using Regression
 
+## Introduction
+
+Real estate prices are influenced by a myriad of factors, ranging from the size of the property to its location and condition. In this repository, we delve into the realm of real estate predictions using regression techniques. Leveraging a dataset of houses sold in King County from May 2014 to May 2015, we explore various regression methodologies to predict house prices accurately. The dataset, described [here](https://geodacenter.github.io/data-and-lab/KingCounty-HouseSales2015/), provides insights into key attributes such as square footage, number of bedrooms and bathrooms, condition, grade, and more.
+
+Our journey begins with simple linear regression, where we demonstrate both closed-form solutions and gradient descent optimization techniques. We then extend our exploration to multiple and polynomial regression, aiming to capture intricate relationships between features and house prices. Through model selection and performance evaluation, we compare the effectiveness of different regression approaches in predicting real estate prices accurately.
+
+Lastly, we delve into Lasso regression, incorporating feature engineering, model tuning using cross-validation, and feature selection to further enhance prediction accuracy. This repository serves as a comprehensive resource for those interested in real estate prediction, offering practical examples, usage guidelines, and insights into model performance across various regression techniques. Whether you're a data scientist, researcher, or enthusiast, these scripts provide valuable insights into predicting real estate prices using regression methods.
+
 ## Simple Linear Regression
 *This Python script demonstrates simple linear regression using both closed-form solution and gradient descent optimization techniques. It provides a comprehensive example of implementing linear regression, evaluating model performance, and visualizing results.*
 
